@@ -1,4 +1,4 @@
-package org.dev.home.cube;
+package org.dev.home.cube.types;
 
 import java.util.Arrays;
 import java.util.Collections;

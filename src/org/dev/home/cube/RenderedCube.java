@@ -1,8 +1,13 @@
 package org.dev.home.cube;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedList;
 
 import javax.swing.JFrame;
+
+import org.dev.home.cube.types.Colours3D;
+import org.dev.home.cube.types.Coords3D;
 
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
@@ -69,7 +74,7 @@ public class RenderedCube extends Cube  implements GLEventListener
 		gl.glClear( GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT );     
 		gl.glLoadIdentity(); 	
 		
-		LinkedList<Piece> pieces = getPieces();
+		Collection<Piece> pieces = getPieces();
 		synchronized (pieces) {
 			for (Piece piece : pieces)
 			{			
@@ -114,8 +119,9 @@ public class RenderedCube extends Cube  implements GLEventListener
 
 	public void displayPiece(Piece piece, GL2 gl)
 	{
-		Coords3D location = piece.getLocation();
-		Colours3D colours = piece.getColours();
+		Position position = piece.getCurrentPosition();
+		Coords3D location = position.getLocation();
+		Colours3D colours = position.getColours();
 		
 		gl.glPushMatrix();//save current translations, rotations etc (to a stack)		
 		gl.glTranslatef(location.x * (cube_size*2.1f), location.y * (cube_size*2.1f), location.z * (cube_size*2.1f));

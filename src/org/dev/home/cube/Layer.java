@@ -2,6 +2,10 @@ package org.dev.home.cube;
 
 import java.util.HashMap;
 
+import org.dev.home.cube.types.Angle;
+import org.dev.home.cube.types.Axis;
+import org.dev.home.cube.types.Coords2D;
+
 public class Layer
 {
 	private final Cube owner_cube;
@@ -50,7 +54,7 @@ public class Layer
 
 	private void add(HashMap<Coords2D, Piece> map, Piece piece)
 	{
-		Coords2D location2D = piece.getLocation().getCoords2D(plane);
+		Coords2D location2D = piece.getCurrentPosition().getLocation().getCoords2D(plane);
 		synchronized (map) {
 			Piece replaced = map.put(location2D, piece);
 			if (replaced!=null)
@@ -69,7 +73,7 @@ public class Layer
 	
 	private void remove(HashMap<Coords2D, Piece> map, Piece piece)
 	{
-		Coords2D location2D = piece.getLocation().getCoords2D(plane);
+		Coords2D location2D = piece.getCurrentPosition().getLocation().getCoords2D(plane);
 		synchronized (map) {
 			Piece removed = map.remove(location2D);
 			if (removed==null) {

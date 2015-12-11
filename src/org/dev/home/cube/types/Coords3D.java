@@ -1,4 +1,8 @@
-package org.dev.home.cube;
+package org.dev.home.cube.types;
+
+import java.util.LinkedList;
+
+import org.dev.home.cube.Plane;
 
 public class Coords3D
 {	
@@ -66,6 +70,24 @@ public class Coords3D
 		if (z != other.z)
 			return false;
 		return true;
+	}
+
+	public LinkedList<Plane> getCommonPlanes(Coords3D location)
+	{
+		LinkedList<Plane> planes = new LinkedList<Plane>();
+		if (x == location.x)
+		{
+			planes.add(new Plane(Axis.X, x));
+		}
+		if (y == location.y)
+		{
+			planes.add(new Plane(Axis.Y, y));
+		}
+		if (z == location.z)
+		{
+			planes.add(new Plane(Axis.Z, z));
+		}		
+		return planes;
 	}
 	
 }

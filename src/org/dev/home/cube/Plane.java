@@ -1,5 +1,7 @@
 package org.dev.home.cube;
 
+import org.dev.home.cube.types.Axis;
+
 public class Plane
 {
 	private Axis axis;

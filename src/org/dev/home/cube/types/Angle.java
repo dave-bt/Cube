@@ -1,9 +1,9 @@
-package org.dev.home.cube;
+package org.dev.home.cube.types;
 
 public enum Angle
 {
 	Ninety(90), OneEighty(180), MinusNinety(270);
-	final int degrees;
+	public final int degrees;
 	private Angle(int _degrees)
 	{
 		degrees = _degrees;

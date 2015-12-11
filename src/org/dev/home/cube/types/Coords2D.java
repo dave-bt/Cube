@@ -1,4 +1,4 @@
-package org.dev.home.cube;
+package org.dev.home.cube.types;
 
 public class Coords2D
 {

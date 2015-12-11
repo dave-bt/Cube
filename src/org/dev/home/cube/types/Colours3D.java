@@ -1,4 +1,4 @@
-package org.dev.home.cube;
+package org.dev.home.cube.types;
 
 public class Colours3D
 {
@@ -14,6 +14,11 @@ public class Colours3D
 		plane_z = _plane_z;
 	}
 	
+	public Colours3D(Colours3D colours)
+	{
+		this(colours.plane_x, colours.plane_y, colours.plane_z);
+	}
+
 	public Colour getX()
 	{
 		return plane_x==null? DEFAULT_COLOUR : plane_x;

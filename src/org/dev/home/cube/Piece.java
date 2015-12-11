@@ -1,211 +1,65 @@
 package org.dev.home.cube;
 
+import java.util.LinkedList;
+
+import org.dev.home.cube.types.Angle;
+import org.dev.home.cube.types.Axis;
+import org.dev.home.cube.types.Colours3D;
+import org.dev.home.cube.types.Coords3D;
+
 public class Piece {
 	
-	private Coords3D location_home;
-	private Colours3D colours_home;
-	private Coords3D location_current;
-	private Colours3D colours_current;
+	private Position position_home;
+	private Position position_current;
 	
-	public Piece(Coords3D _location, Colours3D _orientation)
+	/* create Piece with the specified properties and set these as home properties. i.e
+	 * this is where piece needs to return to to be solved
+	 */
+	public Piece(Coords3D _location, Colours3D _colours)
 	{
-		location_current = _location;
-		colours_current = _orientation;
+		position_current = new Position(_location, _colours);
+		position_home = new Position(position_current);
 	}
 	
-	public void setHomeAsCurrentLocation()
+	/* returns those planes common to both home anc current positions */
+	public LinkedList<Plane> getCommonPlanes()
 	{
-		location_home = location_current;
+		return position_home.getCommonPlanes(position_current);
 	}
+
+
 	
 	public boolean isHome()
 	{
-		return location_current.equals(location_home) && colours_current.equals(colours_home);
+		return position_current.equals(position_home);
 	}
 	
-
 	public void rotate(Axis axis, Angle angle)
 	{
 		int turns = angle.degrees / 90;
 		for (int i=0; i<turns; i++)
 		{
-			locationRotateNinetyDegrees(axis);
-			colours_current.rotateNinetyDegrees(axis);
+			position_current.rotateNinetyDegrees(axis);			
 		}
-	}
+	}		
 
-	private void locationRotateNinetyDegrees(Axis axis)
-	{
-		//System.out.print("Moving " + this);
-		switch(axis)
-		{
-		case X:
-			switch(location_current.y)
-			{
-			case 1:
-				switch(location_current.z)
-				{
-				case 1:
-					location_current.z = -1;
-					break;
-				case 0:
-					location_current.y=0;
-					location_current.z=-1;
-					break;
-				case -1:
-					location_current.y=-1;
-					break;
-				}
-				break;			
-			case 0:
-				switch(location_current.z)
-				{
-				case 1:
-					location_current.y=1;
-					location_current.z=0;
-					break;
-				case 0:
-					break;
-				case -1:
-					location_current.y=-1;
-					location_current.z=0;
-					break;
-				}
-				break;
-			case -1:
-				switch(location_current.z)
-				{
-				case 1:
-					location_current.y=1;
-					break;
-				case 0:
-					location_current.y=0;
-					location_current.z=1;
-					break;
-				case -1:
-					location_current.z=1;
-					break;
-				}
-				break;
-			}
-			break;
-		case Y:
-			switch(location_current.x)
-			{
-			case 1:
-				switch(location_current.z)
-				{
-				case 1:
-					location_current.x = -1;
-					break;
-				case 0:
-					location_current.x=0;
-					location_current.z=1;
-					break;
-				case -1:
-					location_current.z=1;
-					break;
-				}
-				break;			
-			case 0:
-				switch(location_current.z)
-				{
-				case 1:
-					location_current.x=-1;
-					location_current.z=0;
-					break;
-				case 0:
-					break;
-				case -1:
-					location_current.x=1;
-					location_current.z=0;
-					break;
-				}
-				break;
-			case -1:
-				switch(location_current.z)
-				{
-				case 1:
-					location_current.z=-1;
-					break;
-				case 0:
-					location_current.x=0;
-					location_current.z=-1;
-					break;
-				case -1:
-					location_current.x=1;
-					break;
-				}
-				break;
-			}
-			break;
-		case Z:
-			switch(location_current.x)
-			{
-			case 1:
-				switch(location_current.y)
-				{
-				case 1:
-					location_current.y = -1;
-					break;
-				case 0:
-					location_current.x=0;
-					location_current.y=-1;
-					break;
-				case -1:
-					location_current.x=-1;					
-					break;
-				}
-				break;			
-			case 0:
-				switch(location_current.y)
-				{
-				case 1:
-					location_current.x=1;
-					location_current.y=0;
-					break;
-				case 0:
-					break;
-				case -1:
-					location_current.x=-1;
-					location_current.y=0;
-					break;
-				}
-				break;
-			case -1:
-				switch(location_current.y)
-				{
-				case 1:
-					location_current.x=1;
-					break;
-				case 0:
-					location_current.x=0;
-					location_current.y=1;
-					break;
-				case -1:
-					location_current.y=1;
-					break;
-				}
-				break;
-			}
-			break;
-		}		
-		
-		//System.out.println(" to " + this);
+	public Position getCurrentPosition() {
+		return position_current;		
 	}
+	
 
-	public Coords3D getLocation() {
-		return location_current;		
+	public Position getHomePosition() {
+		return position_home;
 	}
 	
 	@Override
 	public String toString() {		
-		return "Piece [X=" + location_current.x + ", Y=" + location_current.y + ", Z=" + location_current.z + "]";
+		return "Piece [Home " + position_home + " : Current " + position_current + "]";
 	}
 
-	public Colours3D getColours() {
-		return colours_current;
-	}	
+
+	
+
 	
 	
 }
