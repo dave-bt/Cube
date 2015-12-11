@@ -4,7 +4,9 @@ public class Controller {
 
 	public static void main(String[] args)
 	{
-		Cube cube = new Cube();
+		Cube cube = new RenderedCube();
+		cube.initialise();
+		cube.shuffle();
 	}
 
 }

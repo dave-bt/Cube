@@ -17,21 +17,20 @@ import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.awt.GLCanvas;
 import com.jogamp.opengl.glu.GLU;
 
-public class Cube implements GLEventListener
+public class Cube
 {
-	private static final long serialVersionUID = -5890105166564384763L;
 	private final LinkedList<Piece> pieces; 
 	private final HashMap<Plane, Layer> layers; //same pieces, just organised in layers
-	private GLCanvas glcanvas;
-	private JFrame jframe;
+	private static final Random random = new Random();
 	
 	public Cube()
-	{
-		jframe = new JFrame("Cube");
-		initialiseOpenGL();
-		
+	{		
 		layers = new HashMap<Plane, Layer>(9);
 		pieces = new LinkedList<>();			
+	}
+	
+	public void initialise()
+	{
 		
 		//centres
 		addPiece(new Piece(
@@ -136,14 +135,12 @@ public class Cube implements GLEventListener
 			piece.setHomeAsCurrentLocation();
 		}
 		
-		shuffle();
-		
-		//for testing
-		/*rotate(Axis.Z, 1, Angle.Ninety);
-		rotate(Axis.X, 0, Angle.Ninety);
-		rotate(Axis.Z, 1, Angle.Ninety);*/
-		
-		
+		redraw();
+	}
+	
+	protected LinkedList<Piece> getPieces()
+	{
+		return pieces;
 	}
 	
 	private void addPiece(Piece piece)
@@ -250,7 +247,6 @@ public class Cube implements GLEventListener
 		}		
 	}
 	
-	private static final Random random = new Random();
 	public void shuffle()
 	{		
 		ExecutorService exec = Executors.newSingleThreadExecutor();
@@ -264,18 +260,12 @@ public class Cube implements GLEventListener
 				{
 					int index = random.nextInt(3) - 1;
 					int forward = random.nextInt(2);
-					rotate(Axis.randomAxis(), index, forward==0 ? Angle.Ninety : Angle.MinusNinety);
-					
-					if (glcanvas!=null)
-					{
-						glcanvas.display();
-					}
+					rotate(Axis.randomAxis(), index, forward==0 ? Angle.Ninety : Angle.MinusNinety);					
+					redraw();
 					
 					try {
-						Thread.sleep(20);
-						
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
+						Thread.sleep(20);						
+					} catch (Exception e) {						
 						e.printStackTrace();
 					}
 				}
@@ -284,91 +274,9 @@ public class Cube implements GLEventListener
 		});				
 	}
 
-	//GLEventListener stuff
-	private GLU glu = new GLU();
-	private int canvas_width = 600;
-	private int canvas_height= 600;
-	
-	private void initialiseOpenGL()
+	public void redraw()
 	{
-		GLProfile profile = GLProfile.get(GLProfile.GL2);
-		GLCapabilities capabilities = new GLCapabilities(profile);
-		glcanvas = new GLCanvas(capabilities);
-		glcanvas.addGLEventListener(this);
-		
-		jframe.setName("Rubik's Cube"); 
-		jframe.getContentPane().add(glcanvas);
-		
-		jframe.setSize(canvas_width, canvas_height);
-		jframe.setLocationRelativeTo(null);
-		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		jframe.setVisible(true);
-		jframe.setResizable(false);
-		
-		glcanvas.requestFocusInWindow();
-
+		//sub-classes can do more with this method!
 	}
-	
-	@Override
-	public void init(GLAutoDrawable drawable)
-	{
-		GL2 gl = drawable.getGL().getGL2();
-		gl.glShadeModel( GL2.GL_SMOOTH );
-		gl.glClearColor( 0f, 0f, 0f, 0f );
-		gl.glClearDepth( 1.0f );
-		gl.glEnable( GL2.GL_DEPTH_TEST );
-		gl.glDepthFunc( GL2.GL_LEQUAL );
-		gl.glHint( GL2.GL_PERSPECTIVE_CORRECTION_HINT, GL2.GL_NICEST );	
-	}
-
-	
-	@Override
-	public void display(GLAutoDrawable drawable)
-	{
-		GL2 gl = drawable.getGL().getGL2();
-		gl.glClear( GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT );     
-		gl.glLoadIdentity(); 	
-		synchronized (pieces) {
-			for (Piece piece : pieces)
-			{			
-				piece.display(gl);
-			}	
-		}				
-		gl.glFlush();
-		
-	}
-	
-
-	@Override
-	public void dispose(GLAutoDrawable drawable)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height)
-	{
-		GL2 gl = drawable.getGL().getGL2();
-		if(height <=0)
-		{
-	         height =1;
-		}
-	      final float h = (float) width / (float) height;
-	      gl.glViewport(0, 0, width, height);
-	      gl.glMatrixMode(GL2.GL_PROJECTION);
-	      gl.glLoadIdentity();
-	      glu.gluPerspective(45.0f, h, 1, 1000);
-	      //from side (positive z)
-	      //glu.gluLookAt(0, 0, 5, 0, 0, 0, 0, 1, 0);
-	      //from top (positive y)
-	      //glu.gluLookAt(0, 5, 0, 0, 0, 0, 1, 0, 0);
-	      glu.gluLookAt(2, 3, 5, 0, 0, 0, 0, 1, 0);
-	      
-	      gl.glMatrixMode(GL2.GL_MODELVIEW);
-	      gl.glLoadIdentity();
-		
-	}
-	
 	
 }
