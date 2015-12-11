@@ -17,15 +17,17 @@ import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.awt.GLCanvas;
 import com.jogamp.opengl.glu.GLU;
 
-public class Cube extends JFrame implements GLEventListener
+public class Cube implements GLEventListener
 {
 	private static final long serialVersionUID = -5890105166564384763L;
 	private final LinkedList<Piece> pieces; 
 	private final HashMap<Plane, Layer> layers; //same pieces, just organised in layers
+	private GLCanvas glcanvas;
+	private JFrame jframe;
 	
 	public Cube()
 	{
-		super("Cube");
+		jframe = new JFrame("Cube");
 		initialiseOpenGL();
 		
 		layers = new HashMap<Plane, Layer>(9);
@@ -264,12 +266,13 @@ public class Cube extends JFrame implements GLEventListener
 					int forward = random.nextInt(2);
 					rotate(Axis.randomAxis(), index, forward==0 ? Angle.Ninety : Angle.MinusNinety);
 					
-					/*Cube.this.invalidate();
-					Cube.this.validate();
-					Cube.this.repaint();*/
+					if (glcanvas!=null)
+					{
+						glcanvas.display();
+					}
 					
 					try {
-						//Thread.sleep(1000);
+						Thread.sleep(20);
 						
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
@@ -285,28 +288,25 @@ public class Cube extends JFrame implements GLEventListener
 	private GLU glu = new GLU();
 	private int canvas_width = 600;
 	private int canvas_height= 600;
-	private float rquad=0.0f;
 	
 	private void initialiseOpenGL()
 	{
 		GLProfile profile = GLProfile.get(GLProfile.GL2);
 		GLCapabilities capabilities = new GLCapabilities(profile);
-		GLCanvas glcanvas = new GLCanvas(capabilities);
+		glcanvas = new GLCanvas(capabilities);
 		glcanvas.addGLEventListener(this);
 		
-		super.setName("Rubik's Cube"); 
-		super.getContentPane().add(glcanvas);
+		jframe.setName("Rubik's Cube"); 
+		jframe.getContentPane().add(glcanvas);
 		
-		super.setSize(canvas_width, canvas_height);
-		super.setLocationRelativeTo(null);
-		super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		super.setVisible(true);
-		super.setResizable(false);
+		jframe.setSize(canvas_width, canvas_height);
+		jframe.setLocationRelativeTo(null);
+		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		jframe.setVisible(true);
+		jframe.setResizable(false);
 		
 		glcanvas.requestFocusInWindow();
-		
-		//final FPSAnimator animator = new FPSAnimator( glcanvas, 300, true);
-	    //animator.start();
+
 	}
 	
 	@Override
