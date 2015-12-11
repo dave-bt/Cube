@@ -2,8 +2,8 @@ package org.dev.home.cube;
 
 public class Coords2D
 {
-	private int a;
-	private int b;
+	private final int a;
+	private final int b;
 	
 	public Coords2D(int _a, int _b)
 	{

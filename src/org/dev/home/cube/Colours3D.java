@@ -5,7 +5,7 @@ public class Colours3D
 	private Colour plane_x;
 	private Colour plane_y;
 	private Colour plane_z;
-	private Colour default_colour = Colour.Black;
+	private static final Colour DEFAULT_COLOUR = Colour.Black;
 	
 	public Colours3D(Colour _plane_x, Colour _plane_y, Colour _plane_z)
 	{
@@ -16,17 +16,17 @@ public class Colours3D
 	
 	public Colour getX()
 	{
-		return plane_x==null? default_colour : plane_x;
+		return plane_x==null? DEFAULT_COLOUR : plane_x;
 	}
 	
 	public Colour getY()
 	{
-		return plane_y==null? default_colour : plane_y;
+		return plane_y==null? DEFAULT_COLOUR : plane_y;
 	}
 	
 	public Colour getZ()
 	{
-		return plane_z==null? default_colour : plane_z;
+		return plane_z==null? DEFAULT_COLOUR : plane_z;
 	}
 	
 	public void rotateNinetyDegrees(Axis axis)
@@ -49,6 +49,34 @@ public class Colours3D
 			plane_x = y;			
 			break;
 		}
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((plane_x == null) ? 0 : plane_x.hashCode());
+		result = prime * result + ((plane_y == null) ? 0 : plane_y.hashCode());
+		result = prime * result + ((plane_z == null) ? 0 : plane_z.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Colours3D other = (Colours3D) obj;
+		if (plane_x != other.plane_x)
+			return false;
+		if (plane_y != other.plane_y)
+			return false;
+		if (plane_z != other.plane_z)
+			return false;
+		return true;
 	}	
 	
 }

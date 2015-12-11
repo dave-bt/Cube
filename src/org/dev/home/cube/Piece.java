@@ -2,24 +2,25 @@ package org.dev.home.cube;
 
 public class Piece {
 	
-	private Coords3D home; 
-	private Coords3D location;
-	private Colours3D colours;
+	private Coords3D location_home;
+	private Colours3D colours_home;
+	private Coords3D location_current;
+	private Colours3D colours_current;
 	
 	public Piece(Coords3D _location, Colours3D _orientation)
 	{
-		location = _location;
-		colours = _orientation;
+		location_current = _location;
+		colours_current = _orientation;
 	}
 	
 	public void setHomeAsCurrentLocation()
 	{
-		home = location;
+		location_home = location_current;
 	}
 	
 	public boolean isHome()
 	{
-		return location.equals(home);
+		return location_current.equals(location_home) && colours_current.equals(colours_home);
 	}
 	
 
@@ -29,7 +30,7 @@ public class Piece {
 		for (int i=0; i<turns; i++)
 		{
 			locationRotateNinetyDegrees(axis);
-			colours.rotateNinetyDegrees(axis);
+			colours_current.rotateNinetyDegrees(axis);
 		}
 	}
 
@@ -39,150 +40,150 @@ public class Piece {
 		switch(axis)
 		{
 		case X:
-			switch(location.y)
+			switch(location_current.y)
 			{
 			case 1:
-				switch(location.z)
+				switch(location_current.z)
 				{
 				case 1:
-					location.z = -1;
+					location_current.z = -1;
 					break;
 				case 0:
-					location.y=0;
-					location.z=-1;
+					location_current.y=0;
+					location_current.z=-1;
 					break;
 				case -1:
-					location.y=-1;
+					location_current.y=-1;
 					break;
 				}
 				break;			
 			case 0:
-				switch(location.z)
+				switch(location_current.z)
 				{
 				case 1:
-					location.y=1;
-					location.z=0;
+					location_current.y=1;
+					location_current.z=0;
 					break;
 				case 0:
 					break;
 				case -1:
-					location.y=-1;
-					location.z=0;
+					location_current.y=-1;
+					location_current.z=0;
 					break;
 				}
 				break;
 			case -1:
-				switch(location.z)
+				switch(location_current.z)
 				{
 				case 1:
-					location.y=1;
+					location_current.y=1;
 					break;
 				case 0:
-					location.y=0;
-					location.z=1;
+					location_current.y=0;
+					location_current.z=1;
 					break;
 				case -1:
-					location.z=1;
+					location_current.z=1;
 					break;
 				}
 				break;
 			}
 			break;
 		case Y:
-			switch(location.x)
+			switch(location_current.x)
 			{
 			case 1:
-				switch(location.z)
+				switch(location_current.z)
 				{
 				case 1:
-					location.x = -1;
+					location_current.x = -1;
 					break;
 				case 0:
-					location.x=0;
-					location.z=1;
+					location_current.x=0;
+					location_current.z=1;
 					break;
 				case -1:
-					location.z=1;
+					location_current.z=1;
 					break;
 				}
 				break;			
 			case 0:
-				switch(location.z)
+				switch(location_current.z)
 				{
 				case 1:
-					location.x=-1;
-					location.z=0;
+					location_current.x=-1;
+					location_current.z=0;
 					break;
 				case 0:
 					break;
 				case -1:
-					location.x=1;
-					location.z=0;
+					location_current.x=1;
+					location_current.z=0;
 					break;
 				}
 				break;
 			case -1:
-				switch(location.z)
+				switch(location_current.z)
 				{
 				case 1:
-					location.z=-1;
+					location_current.z=-1;
 					break;
 				case 0:
-					location.x=0;
-					location.z=-1;
+					location_current.x=0;
+					location_current.z=-1;
 					break;
 				case -1:
-					location.x=1;
+					location_current.x=1;
 					break;
 				}
 				break;
 			}
 			break;
 		case Z:
-			switch(location.x)
+			switch(location_current.x)
 			{
 			case 1:
-				switch(location.y)
+				switch(location_current.y)
 				{
 				case 1:
-					location.y = -1;
+					location_current.y = -1;
 					break;
 				case 0:
-					location.x=0;
-					location.y=-1;
+					location_current.x=0;
+					location_current.y=-1;
 					break;
 				case -1:
-					location.x=-1;					
+					location_current.x=-1;					
 					break;
 				}
 				break;			
 			case 0:
-				switch(location.y)
+				switch(location_current.y)
 				{
 				case 1:
-					location.x=1;
-					location.y=0;
+					location_current.x=1;
+					location_current.y=0;
 					break;
 				case 0:
 					break;
 				case -1:
-					location.x=-1;
-					location.y=0;
+					location_current.x=-1;
+					location_current.y=0;
 					break;
 				}
 				break;
 			case -1:
-				switch(location.y)
+				switch(location_current.y)
 				{
 				case 1:
-					location.x=1;
+					location_current.x=1;
 					break;
 				case 0:
-					location.x=0;
-					location.y=1;
+					location_current.x=0;
+					location_current.y=1;
 					break;
 				case -1:
-					location.y=1;
+					location_current.y=1;
 					break;
 				}
 				break;
@@ -194,16 +195,16 @@ public class Piece {
 	}
 
 	public Coords3D getLocation() {
-		return location;		
+		return location_current;		
 	}
 	
 	@Override
 	public String toString() {		
-		return "Piece [X=" + location.x + ", Y=" + location.y + ", Z=" + location.z + "]";
+		return "Piece [X=" + location_current.x + ", Y=" + location_current.y + ", Z=" + location_current.z + "]";
 	}
 
 	public Colours3D getColours() {
-		return colours;
+		return colours_current;
 	}	
 	
 	
