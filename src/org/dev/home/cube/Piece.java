@@ -38,7 +38,7 @@ public class Piece {
 
 	private void locationRotateNinetyDegrees(Axis axis)
 	{
-		//ok for now just do this long hand without any maths!
+		//System.out.print("Moving " + this);
 		switch(axis)
 		{
 		case X:
@@ -192,6 +192,8 @@ public class Piece {
 			}
 			break;
 		}		
+		
+		//System.out.println(" to " + this);
 	}
 
 	public Coords3D getLocation() {

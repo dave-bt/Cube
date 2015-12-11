@@ -25,7 +25,7 @@ public class Cube extends JFrame implements GLEventListener
 	
 	public Cube()
 	{
-		super("Rubik's Cube");
+		super("Cube");
 		initialiseOpenGL();
 		
 		layers = new HashMap<Plane, Layer>(9);
@@ -137,11 +137,9 @@ public class Cube extends JFrame implements GLEventListener
 		shuffle();
 		
 		//for testing
-		//try {Thread.sleep(1000);} catch(Exception e) {};
-		//rotate(Axis.Z, -1, Angle.Ninety);
-		//rotate(Axis.Y, 0, Angle.OneEighty);
-		//try {Thread.sleep(1000);} catch(Exception e) {};
-		//rotate(Axis.X, 0, Angle.Ninety);
+		/*rotate(Axis.Z, 1, Angle.Ninety);
+		rotate(Axis.X, 0, Angle.Ninety);
+		rotate(Axis.Z, 1, Angle.Ninety);*/
 		
 		
 	}
@@ -260,20 +258,20 @@ public class Cube extends JFrame implements GLEventListener
 			@Override
 			public void run()
 			{
-				for (int i=0; i<10; i++)
+				for (int i=0; i<100; i++)
 				{
 					int index = random.nextInt(3) - 1;
 					int forward = random.nextInt(2);
 					rotate(Axis.randomAxis(), index, forward==0 ? Angle.Ninety : Angle.MinusNinety);
 					
-					Cube.this.invalidate();
+					/*Cube.this.invalidate();
 					Cube.this.validate();
-					Cube.this.repaint();
+					Cube.this.repaint();*/
 					
 					try {
-						Thread.sleep(1000);
+						//Thread.sleep(1000);
 						
-					} catch (InterruptedException e) {
+					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
