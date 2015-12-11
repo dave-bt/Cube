@@ -1,6 +1,5 @@
 package org.dev.home.cube;
 
-import java.util.Collection;
 import java.util.HashMap;
 
 public class Layer

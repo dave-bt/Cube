@@ -41,7 +41,7 @@ public class RenderedCube extends Cube  implements GLEventListener
 	}
 	
 	@Override
-	public void redraw()
+	public void draw()
 	{
 		if (glcanvas!=null)
 		{

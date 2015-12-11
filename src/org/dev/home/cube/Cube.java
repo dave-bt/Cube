@@ -3,19 +3,8 @@ package org.dev.home.cube;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Random;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-import javax.swing.JFrame;
-
-import com.jogamp.opengl.GL2;
-import com.jogamp.opengl.GLAutoDrawable;
-import com.jogamp.opengl.GLCapabilities;
-import com.jogamp.opengl.GLEventListener;
-import com.jogamp.opengl.GLProfile;
-import com.jogamp.opengl.awt.GLCanvas;
-import com.jogamp.opengl.glu.GLU;
 
 public class Cube
 {
@@ -31,111 +20,53 @@ public class Cube
 	
 	public void initialise()
 	{
-		
 		//centres
-		addPiece(new Piece(
-				new Coords3D(-1, 0, 0), 
-				new Colours3D(Colour.Green, null, null)));
+		addPiece(new Piece(new Coords3D(-1, 0, 0), new Colours3D(Colour.Green, null, null)));	
+		addPiece(new Piece(new Coords3D(1, 0, 0), new Colours3D(Colour.Blue, null, null)));
+		addPiece(new Piece(new Coords3D(0, 1, 0), new Colours3D(null, Colour.White, null)));
+		addPiece(new Piece(new Coords3D(0, -1, 0), new Colours3D(null, Colour.Yellow, null)));
+		addPiece(new Piece(new Coords3D(0, 0, 1), new Colours3D(null, null, Colour.Red)));
+		addPiece(new Piece(new Coords3D(0, 0, -1), new Colours3D(null, null, Colour.Orange)));
 		
-		addPiece(new Piece(
-				new Coords3D(1, 0, 0), 
-				new Colours3D(Colour.Blue, null, null)));
-		
-		addPiece(new Piece(
-				new Coords3D(0, 1, 0), 
-				new Colours3D(null, Colour.White, null)));
-		
-		addPiece(new Piece(
-				new Coords3D(0, -1, 0), 
-				new Colours3D(null, Colour.Yellow, null)));
-		
-		addPiece(new Piece(
-				new Coords3D(0, 0, 1), 
-				new Colours3D(null, null, Colour.Red)));
-		
-		addPiece(new Piece(
-				new Coords3D(0, 0, -1), 
-				new Colours3D(null, null, Colour.Orange)));
-		
-		//bottom layer
+		//bottom layer*********
 		//edges
-		addPiece(new Piece(
-				new Coords3D(0, -1, 1), 
-				new Colours3D(null, Colour.Yellow, Colour.Red)));
-		addPiece(new Piece(
-				new Coords3D(0, -1, -1), 
-				new Colours3D(null, Colour.Yellow, Colour.Orange)));		
-		addPiece(new Piece(
-				new Coords3D(1, -1, 0), 
-				new Colours3D(Colour.Blue, Colour.Yellow, null)));
-		addPiece(new Piece(
-				new Coords3D(-1, -1, 0), 
-				new Colours3D(Colour.Green, Colour.Yellow, null)));
+		addPiece(new Piece(new Coords3D(0, -1, 1), new Colours3D(null, Colour.Yellow, Colour.Red)));
+		addPiece(new Piece(new Coords3D(0, -1, -1), new Colours3D(null, Colour.Yellow, Colour.Orange)));		
+		addPiece(new Piece(new Coords3D(1, -1, 0), new Colours3D(Colour.Blue, Colour.Yellow, null)));
+		addPiece(new Piece(new Coords3D(-1, -1, 0), new Colours3D(Colour.Green, Colour.Yellow, null)));
 		
 		//corners
-		addPiece(new Piece(
-				new Coords3D(1, -1, 1), 
-				new Colours3D(Colour.Blue, Colour.Yellow, Colour.Red)));
-		addPiece(new Piece(
-				new Coords3D(-1, -1, 1), 
-				new Colours3D(Colour.Green, Colour.Yellow, Colour.Red)));				
-		addPiece(new Piece(
-				new Coords3D(1, -1, -1), 
-				new Colours3D(Colour.Blue, Colour.Yellow, Colour.Orange)));
-		addPiece(new Piece(
-				new Coords3D(-1, -1, -1), 
-				new Colours3D(Colour.Green, Colour.Yellow, Colour.Orange)));
+		addPiece(new Piece(new Coords3D(1, -1, 1), new Colours3D(Colour.Blue, Colour.Yellow, Colour.Red)));
+		addPiece(new Piece(new Coords3D(-1, -1, 1), new Colours3D(Colour.Green, Colour.Yellow, Colour.Red)));				
+		addPiece(new Piece(new Coords3D(1, -1, -1),	new Colours3D(Colour.Blue, Colour.Yellow, Colour.Orange)));
+		addPiece(new Piece(new Coords3D(-1, -1, -1), new Colours3D(Colour.Green, Colour.Yellow, Colour.Orange)));
 		
-		//middle layer
+		//middle layer************
 		//edges
-		addPiece(new Piece(
-				new Coords3D(1, 0, 1), 
-				new Colours3D(Colour.Blue, null, Colour.Red)));
-		addPiece(new Piece(
-				new Coords3D(-1, 0, 1), 
-				new Colours3D(Colour.Green, null, Colour.Red)));				
-		addPiece(new Piece(
-				new Coords3D(1, 0, -1), 
-				new Colours3D(Colour.Blue, null, Colour.Orange)));
-		addPiece(new Piece(
-				new Coords3D(-1, 0, -1), 
-				new Colours3D(Colour.Green, null, Colour.Orange)));
+		addPiece(new Piece(new Coords3D(1, 0, 1), new Colours3D(Colour.Blue, null, Colour.Red)));
+		addPiece(new Piece(new Coords3D(-1, 0, 1), new Colours3D(Colour.Green, null, Colour.Red)));				
+		addPiece(new Piece(new Coords3D(1, 0, -1), new Colours3D(Colour.Blue, null, Colour.Orange)));
+		addPiece(new Piece(new Coords3D(-1, 0, -1), new Colours3D(Colour.Green, null, Colour.Orange)));
 
-		//top layer
+		//top layer**************
 		//edges
-		addPiece(new Piece(
-				new Coords3D(0, 1, 1), 
-				new Colours3D(null, Colour.White, Colour.Red)));
-		addPiece(new Piece(
-				new Coords3D(0, 1, -1), 
-				new Colours3D(null, Colour.White, Colour.Orange)));		
-		addPiece(new Piece(
-				new Coords3D(1, 1, 0), 
-				new Colours3D(Colour.Blue, Colour.White, null)));
-		addPiece(new Piece(
-				new Coords3D(-1, 1, 0), 
-				new Colours3D(Colour.Green, Colour.White, null)));
+		addPiece(new Piece(new Coords3D(0, 1, 1), new Colours3D(null, Colour.White, Colour.Red)));
+		addPiece(new Piece(new Coords3D(0, 1, -1), new Colours3D(null, Colour.White, Colour.Orange)));		
+		addPiece(new Piece(new Coords3D(1, 1, 0), new Colours3D(Colour.Blue, Colour.White, null)));
+		addPiece(new Piece(new Coords3D(-1, 1, 0), new Colours3D(Colour.Green, Colour.White, null)));
 
 		//corners
-		addPiece(new Piece(
-				new Coords3D(1, 1, 1), 
-				new Colours3D(Colour.Blue, Colour.White, Colour.Red)));
-		addPiece(new Piece(
-				new Coords3D(-1, 1, 1), 
-				new Colours3D(Colour.Green, Colour.White, Colour.Red)));				
-		addPiece(new Piece(
-				new Coords3D(1, 1, -1), 
-				new Colours3D(Colour.Blue, Colour.White, Colour.Orange)));
-		addPiece(new Piece(
-				new Coords3D(-1, 1, -1), 
-				new Colours3D(Colour.Green, Colour.White, Colour.Orange)));
+		addPiece(new Piece(new Coords3D(1, 1, 1), new Colours3D(Colour.Blue, Colour.White, Colour.Red)));
+		addPiece(new Piece(new Coords3D(-1, 1, 1), new Colours3D(Colour.Green, Colour.White, Colour.Red)));				
+		addPiece(new Piece(new Coords3D(1, 1, -1), new Colours3D(Colour.Blue, Colour.White, Colour.Orange)));
+		addPiece(new Piece(new Coords3D(-1, 1, -1),	new Colours3D(Colour.Green, Colour.White, Colour.Orange)));
 		
 		for (Piece piece : pieces)
 		{
 			piece.setHomeAsCurrentLocation();
 		}
 		
-		redraw();
+		draw();
 	}
 	
 	protected LinkedList<Piece> getPieces()
@@ -261,7 +192,7 @@ public class Cube
 					int index = random.nextInt(3) - 1;
 					int forward = random.nextInt(2);
 					rotate(Axis.randomAxis(), index, forward==0 ? Angle.Ninety : Angle.MinusNinety);					
-					redraw();
+					draw();
 					
 					try {
 						Thread.sleep(20);						
@@ -274,7 +205,7 @@ public class Cube
 		});				
 	}
 
-	public void redraw()
+	public void draw()
 	{
 		//sub-classes can do more with this method!
 	}
