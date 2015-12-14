@@ -34,12 +34,77 @@ public class Solver {
 		}
 		
 		solveTopLayerCross();
+		solveTopLayerCorners();
 		
 	}
 	
 	
 	
 	
+	private void solveTopLayerCorners()
+	{
+		LinkedList<Piece> corner_pieces = new LinkedList<Piece>();
+		corner_pieces.add(cube.findPiece(new Position(new Coords3D(1, 1, 1), new Colours3D(Colour.Blue, Colour.White, Colour.Red))));
+		corner_pieces.add(cube.findPiece(new Position(new Coords3D(-1, 1, 1), new Colours3D(Colour.Green, Colour.White, Colour.Red))));
+		corner_pieces.add(cube.findPiece(new Position(new Coords3D(-1, 1, -1), new Colours3D(Colour.Green, Colour.White, Colour.Orange))));
+		corner_pieces.add(cube.findPiece(new Position(new Coords3D(1, 1, -1), new Colours3D(Colour.Blue, Colour.White, Colour.Orange))));
+		
+		//start with pieces currently on bottom layer
+		for (Piece piece : corner_pieces)
+		{
+			Coords3D location_current = piece.getCurrentPosition().getLocation();			
+			if (location_current.y==-1)
+			{
+				if (cube.rotateUntilBestAligned(piece, Axis.Y))
+				{
+					//three cases depending on orientation of cube
+					Colours3D colours = piece.getCurrentPosition().getColours();
+					Axis whiteaxis = colours.find(Colour.White);
+					if (whiteaxis!=null)
+					{
+						if (whiteaxis==Axis.Y)
+						{
+							//bottom is white. trickiest case!
+							
+						}
+						else if (whiteaxis==Axis.Z)
+						{
+							if (location_current.z==1)
+							{
+								cube.rotate(Axis.X, location_current.x, Angle.Ninety);
+							}
+							else
+							{
+								cube.rotate(Axis.X, location_current.x, Angle.MinusNinety);
+							}
+						}
+						else if (whiteaxis==Axis.X)
+						{
+							if (location_current.x==1)
+							{
+								cube.rotate(Axis.Z, location_current.z, Angle.MinusNinety);
+							}
+							else
+							{
+								cube.rotate(Axis.Z, location_current.z, Angle.Ninety);
+							}
+						}						
+					}
+					else
+					{
+						System.out.println("solveTopLayerCorners() : Logic error2");
+					}
+				}
+				else
+				{
+					System.out.println("solveTopLayerCorners() : Logic error1");
+				}
+				
+			}
+		}
+		
+	}
+
 	private void solveTopLayerCross()
 	{
 		//y=0 plane cross****

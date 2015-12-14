@@ -42,6 +42,46 @@ public class Piece {
 			position_current.rotateNinetyDegrees(axis);			
 		}
 	}		
+	
+	/* rotates piece about the specified axis, until it is aligned below/above/to the side of
+	 * its home location 
+	*/
+	public boolean rotateUntilBestAligned(Axis axis)
+	{
+		Coords3D location_home = this.position_home.getLocation();
+		
+		for (int i=0; i<4; i++)
+		{
+			Coords3D location_current = this.position_current.getLocation();
+			//return if location aligned
+			switch(axis)
+			{
+			case X:
+				if (location_current.z==location_home.z && location_current.y==location_home.y) 
+				{
+					return true;
+				}
+				break;
+			case Y:
+				if (location_current.x==location_home.x && location_current.z==location_home.z) 
+				{
+					return true;
+				}
+				break;			
+			case Z:
+				if (location_current.x==location_home.x && location_current.y==location_home.y) 
+				{
+					return true;
+				}
+				break;
+			}			
+			
+			//rotate
+			position_current.rotateNinetyDegrees(axis);			
+			
+		}
+		return false;
+	}
 
 	public Position getCurrentPosition() {
 		return position_current;		

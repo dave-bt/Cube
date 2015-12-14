@@ -1,37 +1,49 @@
 package org.dev.home.cube.types;
 
+import java.util.HashMap;
+
 public class Colours3D
 {
-	private Colour plane_x;
-	private Colour plane_y;
-	private Colour plane_z;
+	private Colour colour_x;
+	private Colour colour_y;
+	private Colour colour_z;
 	private static final Colour DEFAULT_COLOUR = Colour.Black;
+	private final HashMap<Colour, Axis> colourmap = new HashMap<Colour, Axis>(3); 
 	
 	public Colours3D(Colour _plane_x, Colour _plane_y, Colour _plane_z)
 	{
-		plane_x = _plane_x;
-		plane_y = _plane_y;
-		plane_z = _plane_z;
+		colour_x = _plane_x;
+		colour_y = _plane_y;
+		colour_z = _plane_z;
+		colourmap.put(colour_x, Axis.X);
+		colourmap.put(colour_y, Axis.Y);
+		colourmap.put(colour_z, Axis.Z);
 	}
 	
 	public Colours3D(Colours3D colours)
 	{
-		this(colours.plane_x, colours.plane_y, colours.plane_z);
+		this(colours.colour_x, colours.colour_y, colours.colour_z);
 	}
 
 	public Colour getX()
 	{
-		return plane_x==null? DEFAULT_COLOUR : plane_x;
+		return colour_x==null? DEFAULT_COLOUR : colour_x;
 	}
 	
 	public Colour getY()
 	{
-		return plane_y==null? DEFAULT_COLOUR : plane_y;
+		return colour_y==null? DEFAULT_COLOUR : colour_y;
 	}
 	
 	public Colour getZ()
 	{
-		return plane_z==null? DEFAULT_COLOUR : plane_z;
+		return colour_z==null? DEFAULT_COLOUR : colour_z;
+	}	
+	
+	//returns the colour on a given axis
+	public Axis find(Colour colour)
+	{
+		return this.colourmap.get(colour);
 	}
 	
 	public void rotateNinetyDegrees(Axis axis)
@@ -39,19 +51,25 @@ public class Colours3D
 		switch(axis)
 		{
 		case X:
-			Colour z = plane_z;
-			plane_z = plane_y;
-			plane_y = z;
+			Colour z = colour_z;
+			colour_z = colour_y;
+			colour_y = z;
+			colourmap.put(colour_y, Axis.Y);
+			colourmap.put(colour_z, Axis.Z);
 			break;
 		case Y:
-			Colour x = plane_x;
-			plane_x = plane_z;
-			plane_z = x;
+			Colour x = colour_x;
+			colour_x = colour_z;
+			colour_z = x;
+			colourmap.put(colour_x, Axis.X);
+			colourmap.put(colour_z, Axis.Z);
 			break;
 		case Z:
-			Colour y = plane_y;
-			plane_y = plane_x;
-			plane_x = y;			
+			Colour y = colour_y;
+			colour_y = colour_x;
+			colour_x = y;			
+			colourmap.put(colour_y, Axis.Y);
+			colourmap.put(colour_x, Axis.X);
 			break;
 		}
 	}
@@ -60,9 +78,9 @@ public class Colours3D
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((plane_x == null) ? 0 : plane_x.hashCode());
-		result = prime * result + ((plane_y == null) ? 0 : plane_y.hashCode());
-		result = prime * result + ((plane_z == null) ? 0 : plane_z.hashCode());
+		result = prime * result + ((colour_x == null) ? 0 : colour_x.hashCode());
+		result = prime * result + ((colour_y == null) ? 0 : colour_y.hashCode());
+		result = prime * result + ((colour_z == null) ? 0 : colour_z.hashCode());
 		return result;
 	}
 
@@ -75,12 +93,24 @@ public class Colours3D
 		if (getClass() != obj.getClass())
 			return false;
 		Colours3D other = (Colours3D) obj;
-		if (plane_x != other.plane_x)
+		if (colour_x != other.colour_x)
 			return false;
-		if (plane_y != other.plane_y)
+		if (colour_y != other.colour_y)
 			return false;
-		if (plane_z != other.plane_z)
+		if (colour_z != other.colour_z)
 			return false;
+		return true;
+	}
+
+	public boolean containsAll(Colours3D colours_current)
+	{
+		for (Colour color : colours_current.colourmap.keySet())
+		{
+			if (!this.colourmap.containsKey(color))
+			{
+				return false;
+			}
+		}
 		return true;
 	}	
 	

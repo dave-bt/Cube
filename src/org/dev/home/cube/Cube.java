@@ -171,6 +171,11 @@ public class Cube
 		//System.out.println("After removing " + piece + "... " + layer);
 	}
 	
+	public boolean rotateUntilBestAligned(Piece piece, Axis axis)
+	{
+		//TODO
+	}
+	
 	public void rotate(Axis axis, int index, Angle angle)
 	{
 		Plane plane = new Plane(axis, index);
@@ -212,5 +217,7 @@ public class Cube
 	{
 		//sub-classes can do more with this method!
 	}
+
+
 	
 }
