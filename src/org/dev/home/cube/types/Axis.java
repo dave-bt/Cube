@@ -17,5 +17,4 @@ public enum Axis
 	{
 	    return values.get(random.nextInt(size));
 	}
-	
 }

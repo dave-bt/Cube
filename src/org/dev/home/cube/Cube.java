@@ -170,10 +170,13 @@ public class Cube
 		}
 		//System.out.println("After removing " + piece + "... " + layer);
 	}
+
 	
-	public boolean rotateUntilBestAligned(Piece piece, Axis axis)
+	public boolean rotateUntilPieceBestAligned(Piece piece, Axis axis)
 	{
-		//TODO
+		int axis_value = piece.getCurrentPosition().getLocation().getValue(axis);		
+		Layer layer = layers.get(new Plane(axis, axis_value));
+		return layer.rotateUntilPieceBestAligned(piece);		
 	}
 	
 	public void rotate(Axis axis, int index, Angle angle)
@@ -188,8 +191,7 @@ public class Cube
 		Layer layer = layers.get(plane);
 		if (layer!=null)
 		{
-			layer.rotate(angle);
-			draw();
+			layer.rotate(angle);			
 		}		
 	}
 	
@@ -202,12 +204,14 @@ public class Cube
 			@Override
 			public void run()
 			{*/
+				System.out.println("Start Shuffle");
 				for (int i=0; i<25; i++)
 				{
 					int index = random.nextInt(3) - 1;
 					int forward = random.nextInt(2);
 					rotate(Axis.randomAxis(), index, forward==0 ? Angle.Ninety : Angle.MinusNinety);																				
 				}
+				System.out.println("End Shuffle");
 			/*	
 			}
 		});		*/		
@@ -217,6 +221,8 @@ public class Cube
 	{
 		//sub-classes can do more with this method!
 	}
+
+
 
 
 	

@@ -24,6 +24,7 @@ public class Solver {
 	public void start()
 	{
 		//position white centre *****
+		System.out.println("Position Top Centre");
 		Piece p1 = cube.findPiece(new Position(new Coords3D(0, 1, 0), new Colours3D(null, Colour.White, null)));
 		//find common planes
 		LinkedList<Plane> planes = p1.getCommonPlanes();
@@ -43,6 +44,7 @@ public class Solver {
 	
 	private void solveTopLayerCorners()
 	{
+		System.out.println("Start Solve Top Layer Corners");
 		LinkedList<Piece> corner_pieces = new LinkedList<Piece>();
 		corner_pieces.add(cube.findPiece(new Position(new Coords3D(1, 1, 1), new Colours3D(Colour.Blue, Colour.White, Colour.Red))));
 		corner_pieces.add(cube.findPiece(new Position(new Coords3D(-1, 1, 1), new Colours3D(Colour.Green, Colour.White, Colour.Red))));
@@ -50,43 +52,65 @@ public class Solver {
 		corner_pieces.add(cube.findPiece(new Position(new Coords3D(1, 1, -1), new Colours3D(Colour.Blue, Colour.White, Colour.Orange))));
 		
 		//start with pieces currently on bottom layer
+		System.out.println("Looking for pieces on bottom layer");
 		for (Piece piece : corner_pieces)
-		{
+		{			
 			Coords3D location_current = piece.getCurrentPosition().getLocation();			
 			if (location_current.y==-1)
 			{
-				if (cube.rotateUntilBestAligned(piece, Axis.Y))
+				System.out.println("Found " + piece);
+				System.out.println("Rotating 'till best aligned");
+				if (cube.rotateUntilPieceBestAligned(piece, Axis.Y))
 				{
+					System.out.println("Best aligned");
 					//three cases depending on orientation of cube
 					Colours3D colours = piece.getCurrentPosition().getColours();
 					Axis whiteaxis = colours.find(Colour.White);
 					if (whiteaxis!=null)
 					{
+						int current_x = location_current.x;
+						int current_z = location_current.z;						
 						if (whiteaxis==Axis.Y)
 						{
+							System.out.println("White face on bottome");
 							//bottom is white. trickiest case!
+							System.out.println("<ignore for now>");
 							
 						}
 						else if (whiteaxis==Axis.Z)
-						{
-							if (location_current.z==1)
+						{							
+							System.out.println("White face on Z plane");
+							if (location_current.x==-1)
 							{
-								cube.rotate(Axis.X, location_current.x, Angle.Ninety);
+								System.out.println("X==-1");								
+								cube.rotate(Axis.Z, current_z, Angle.MinusNinety);
+								cube.rotateUntilPieceBestAligned(piece, Axis.Y);
+								cube.rotate(Axis.Z, current_z, Angle.Ninety);
 							}
 							else
 							{
-								cube.rotate(Axis.X, location_current.x, Angle.MinusNinety);
+								System.out.println("X==1");								
+								cube.rotate(Axis.Z, current_z, Angle.Ninety);
+								cube.rotateUntilPieceBestAligned(piece, Axis.Y);
+								cube.rotate(Axis.Z, current_z, Angle.MinusNinety);
 							}
 						}
 						else if (whiteaxis==Axis.X)
-						{
-							if (location_current.x==1)
-							{
-								cube.rotate(Axis.Z, location_current.z, Angle.MinusNinety);
+						{							
+							System.out.println("White face on X axis");
+							if (location_current.z==1)
+							{							
+								System.out.println("Z==1");
+								cube.rotate(Axis.X, current_x, Angle.MinusNinety);
+								cube.rotateUntilPieceBestAligned(piece, Axis.Y);
+								cube.rotate(Axis.X, current_x, Angle.Ninety);
 							}
 							else
 							{
-								cube.rotate(Axis.Z, location_current.z, Angle.Ninety);
+								System.out.println("Z==-1");
+								cube.rotate(Axis.X, current_x, Angle.Ninety);
+								cube.rotateUntilPieceBestAligned(piece, Axis.Y);
+								cube.rotate(Axis.X, current_x, Angle.MinusNinety);
 							}
 						}						
 					}
@@ -102,11 +126,12 @@ public class Solver {
 				
 			}
 		}
-		
+		System.out.println("End Solve Top Layer Corners");
 	}
 
 	private void solveTopLayerCross()
 	{
+		System.out.println("Start Solve Top Layer Cross");
 		//y=0 plane cross****
 		LinkedList<Piece> cross_pieces = new LinkedList<Piece>();
 		cross_pieces.add(cube.findPiece(new Position(new Coords3D(0, 1, 1), new Colours3D(null, Colour.White, Colour.Red))));
@@ -182,10 +207,12 @@ public class Solver {
 				}		
 			}
 		}
+		System.out.println("End Solve Top Layer Cross");
 	}
 	
 	private void solveTopLayerCross_MiddleLayerPiece(Piece piece)
 	{
+		System.out.println("Start Solve Top Layer Cross - Middle Layer Piece");
 		Coords3D location_current = piece.getCurrentPosition().getLocation();
 		Coords3D location_home = piece.getHomePosition().getLocation();
 		Colours3D colours_current = piece.getCurrentPosition().getColours();
@@ -226,6 +253,7 @@ public class Solver {
 				cube.rotate(new Plane(Axis.Z, location_current.z), Angle.Ninety);
 			}
 		}
+		System.out.println("End Solve Top Layer Cross - Middle Layer Piece");
  	}
 	
 	/* gets the 

@@ -9,8 +9,8 @@ import org.dev.home.cube.types.Coords3D;
 /* combines location and colours orientation of a piece */
 public class Position {
 
-	private Coords3D location;
-	private Colours3D colours;
+	private final Coords3D location;
+	private final Colours3D colours;
 	
 	public Position(Coords3D _location, Colours3D _colours)
 	{

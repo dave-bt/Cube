@@ -1,5 +1,6 @@
 package org.dev.home.cube.types;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 
 import org.dev.home.cube.Plane;
@@ -8,7 +9,7 @@ public class Coords3D
 {	
 	public int x;
 	public int y;
-	public int z; 
+	public int z;
 		
 	public Coords3D(int _x, int _y, int _z)
 	{		
@@ -88,6 +89,20 @@ public class Coords3D
 			planes.add(new Plane(Axis.Z, z));
 		}		
 		return planes;
+	}
+	
+	public int getValue(Axis axis)
+	{
+		switch (axis)
+		{
+		case X:
+			return x;
+		case Y:
+			return y;
+		case Z:
+			return z;
+		}
+		return Integer.MIN_VALUE;//errrrrrroooorrrr!!
 	}
 	
 }

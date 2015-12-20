@@ -19,6 +19,18 @@ public class Layer
 		pieces = new HashMap<Coords2D, Piece>(9);
 	}
 	
+	public boolean rotateUntilPieceBestAligned(Piece check_piece)
+	{			
+		int i = 0;
+		Axis axis = plane.getAxis();
+		while (i<4 && !check_piece.isBestAligned(axis))//we're going for max 4 turns to put it back in position so that when we rationalise moves they will all be ignored
+		{
+			rotate(Angle.Ninety);
+			i++;
+		}	
+		return i!=4;
+	}
+	
 	public void rotate(Angle angle)
 	{
 		synchronized (pieces)
@@ -45,6 +57,9 @@ public class Layer
 				owner_cube.addToLayers(piece, axis);
 			}
 		}
+		//TODO probably remove this (when we have done move rationalisation)
+		owner_cube.draw();
+		
 	}
 	
 	public void add(Piece piece)
